@@ -1,15 +1,22 @@
+using System.Text;
 using ArcadeX.Api.Data;
-using ArcadeX.Api.Repositories.GameRepository;
-using ArcadeX.Api.Repositories.ReviewRepository;
-using ArcadeX.Api.Repositories.UserRepository;
+using ArcadeX.Api.Repositories.SQLGame;
+using ArcadeX.Api.Repositories.SQLReview;
+using ArcadeX.Api.Repositories.SQLUser;
+using ArcadeX.Api.Repositories.Token;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<ArcadeXDbContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("ArcadeXConnectionString")
+    ));
+builder.Services.AddDbContext<ArcadeXAuthDbContext>(options => options.UseSqlServer(
+    builder.Configuration.GetConnectionString("ArcadeXAuthConnectionString")
     ));
 
 // Add services to the container.
@@ -47,9 +54,43 @@ builder.Services.AddScoped<IGameRepository, GameRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
 
+builder.Services.AddScoped<ITokenRepository, TokenRepository>();
+
+
+builder.Services.AddIdentityCore<IdentityUser>()
+    .AddRoles<IdentityRole>()
+    .AddTokenProvider<DataProtectorTokenProvider<IdentityUser>>("ArcadeX")
+    .AddEntityFrameworkStores<ArcadeXAuthDbContext>()
+    .AddDefaultTokenProviders();
+
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    options.User.RequireUniqueEmail = true;
+    options.Password.RequiredLength = 4;
+    options.Password.RequiredUniqueChars = 0;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireDigit = false;
+    options.Password.RequireNonAlphanumeric = false;
+});
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidAudience = builder.Configuration["Jwt:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+    });
+
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 //builder.Services.AddOpenApi();
-
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

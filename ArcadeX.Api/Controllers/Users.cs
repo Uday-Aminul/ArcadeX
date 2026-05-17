@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using ArcadeX.Api.Models.DomainModels;
-using ArcadeX.Api.Repositories.UserRepository;
+using ArcadeX.Api.Repositories.SQLUser;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ArcadeX.Api.Controllers

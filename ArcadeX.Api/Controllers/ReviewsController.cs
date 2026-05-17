@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using ArcadeX.Api.Models.DomainModels;
-using ArcadeX.Api.Repositories.ReviewRepository;
+using ArcadeX.Api.Repositories.SQLReview;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 

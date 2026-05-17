@@ -6,7 +6,7 @@ using ArcadeX.Api.Data;
 using ArcadeX.Api.Models.DomainModels;
 using Microsoft.EntityFrameworkCore;
 
-namespace ArcadeX.Api.Repositories.UserRepository
+namespace ArcadeX.Api.Repositories.SQLUser
 {
     public class UserRepository : IUserRepository
     {

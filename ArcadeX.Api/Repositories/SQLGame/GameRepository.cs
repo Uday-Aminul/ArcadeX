@@ -6,7 +6,7 @@ using ArcadeX.Api.Data;
 using ArcadeX.Api.Models.DomainModels;
 using Microsoft.EntityFrameworkCore;
 
-namespace ArcadeX.Api.Repositories.GameRepository
+namespace ArcadeX.Api.Repositories.SQLGame
 {
     public class GameRepository : IGameRepository
     {

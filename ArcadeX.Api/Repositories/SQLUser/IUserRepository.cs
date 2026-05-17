@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ArcadeX.Api.Models.DomainModels;
 
-namespace ArcadeX.Api.Repositories.UserRepository
+namespace ArcadeX.Api.Repositories.SQLUser
 {
     public interface IUserRepository
     {

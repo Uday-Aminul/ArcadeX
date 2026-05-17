@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ArcadeX.Api.Models.DomainModels;
-using ArcadeX.Api.Repositories.GameRepository;
+using ArcadeX.Api.Repositories.SQLGame;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ArcadeX.Api.Controllers
@@ -19,7 +20,7 @@ namespace ArcadeX.Api.Controllers
         }
 
         [HttpGet]
-        //[Authorize(Roles = "Writer")]
+        [Authorize(Roles = "Reader")]
         public async Task<IActionResult> GetAll()
         {
             var gameDomains = await _gameRepository.GetAllGamesAsync();
