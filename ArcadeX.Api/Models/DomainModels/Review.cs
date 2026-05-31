@@ -9,12 +9,13 @@ namespace ArcadeX.Api.Models.DomainModels
     public class Review
     {
         public int Id { get; set; }
-        public int Rating { get; set; } // 1-5
-        public string Comment { get; set; }
+        public double Rating { get; set; } // 1-10 stars
+        public int PeopleReviewed { get; set; }
+        public string Messege { get; set; }
         public DateTime CreatedAt { get; set; }
 
         // Foreign Keys
-        public int UserId { get; set; }
+        public String UserId { get; set; }
         public int GameId { get; set; }
 
         // Navigation Properties

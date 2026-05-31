@@ -1,5 +1,6 @@
 using System.Text;
 using ArcadeX.Api.Data;
+using ArcadeX.Api.Models.DomainModels;
 using ArcadeX.Api.Repositories.SQLGame;
 using ArcadeX.Api.Repositories.SQLReview;
 using ArcadeX.Api.Repositories.SQLUser;
@@ -26,7 +27,7 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen(options =>
 {
-    options.SwaggerDoc("v1", new OpenApiInfo() { Title = "Class Routine Management", Version = "v1" });
+    options.SwaggerDoc("v1", new OpenApiInfo() { Title = "ArcadeX", Version = "v1" });
     options.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme()
     {
         Name = "Authorization",
@@ -57,9 +58,9 @@ builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
 builder.Services.AddScoped<ITokenRepository, TokenRepository>();
 
 
-builder.Services.AddIdentityCore<IdentityUser>()
+builder.Services.AddIdentityCore<User>()
     .AddRoles<IdentityRole>()
-    .AddTokenProvider<DataProtectorTokenProvider<IdentityUser>>("ArcadeX")
+    .AddTokenProvider<DataProtectorTokenProvider<User>>("ArcadeX")
     .AddEntityFrameworkStores<ArcadeXAuthDbContext>()
     .AddDefaultTokenProviders();
 

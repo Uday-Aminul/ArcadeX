@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ArcadeX.Api.Models.DomainModels.EnumTypes;
 
 namespace ArcadeX.Api.Models.DomainModels
 {
@@ -11,20 +12,21 @@ namespace ArcadeX.Api.Models.DomainModels
         public string Title { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }
-        public string Category { get; set; }
+        public DateTime ReleaseDate { get; set; }
         public string CoverImageUrl { get; set; }
-        //public string DownloadUrl { get; set; }
+        public string? GamePlayUrl { get; set; }
+        public List<string>? GameImageUrl { get; set; }
+        public string DownloadUrl { get; set; }
         public int DownloadCount { get; set; } = 0;
-        //public DateTime ReleaseDate { get; set; }
-        //public bool IsPublished { get; set; }
+        public List<Category> Category { get; set; }
+        public AgeRating AgeRating { get; set; }
+        public SystemRequirements SystemRequirements { get; set; }
 
         // Foreign Keys
-        public int? DeveloperId { get; set; }
+        public string? DeveloperId { get; set; }
 
         // Navigation Properties
-        //public User? Developer { get; set; }
-        public List<Review> Reviews { get; set; }
-        // public List<Purchase> Purchases { get; set; }
-        // public List<WishlistItem> WishlistItems { get; set; }
+        public User? Developer { get; set; }
+        public List<Review>? Reviews { get; set; }
     }
 }

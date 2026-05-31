@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace ArcadeX.Api.Migrations.ArcadeXAuthDb
+namespace ArcadeX.Api.Migrations
 {
     /// <inheritdoc />
-    public partial class AuthDBInitialCreation : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -32,6 +32,9 @@ namespace ArcadeX.Api.Migrations.ArcadeXAuthDb
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    WalletBalance = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    AccountCreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -158,6 +161,66 @@ namespace ArcadeX.Api.Migrations.ArcadeXAuthDb
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Game",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    ReleaseDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CoverImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    GamePlayUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    GameImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DownloadUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DownloadCount = table.Column<int>(type: "int", nullable: false),
+                    Category = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AgeRating = table.Column<int>(type: "int", nullable: false),
+                    SystemRequirements = table.Column<int>(type: "int", nullable: false),
+                    DeveloperId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Game", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Game_AspNetUsers_DeveloperId",
+                        column: x => x.DeveloperId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Review",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Rating = table.Column<double>(type: "float", nullable: false),
+                    PeopleReviewed = table.Column<int>(type: "int", nullable: false),
+                    Messege = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    GameId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Review", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Review_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Review_Game_GameId",
+                        column: x => x.GameId,
+                        principalTable: "Game",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
@@ -165,6 +228,18 @@ namespace ArcadeX.Api.Migrations.ArcadeXAuthDb
                 {
                     { "3a4c51c5-9f18-4c2f-9024-7cce011b2e15", "3a4c51c5-9f18-4c2f-9024-7cce011b2e15", "Reader", "READER" },
                     { "d6b4a1cb-2f93-4d2e-bec8-94cd3d46f6c8", "d6b4a1cb-2f93-4d2e-bec8-94cd3d46f6c8", "Writer", "WRITER" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "AccountCreatedAt", "ConcurrencyStamp", "DateOfBirth", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName", "WalletBalance" },
+                values: new object[,]
+                {
+                    { "1", 0, new DateTime(2024, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "dffc4001-f081-4602-9a6a-427e5893a9cd", new DateTime(1995, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "john@example.com", false, false, null, null, null, "AQAAAAEAACcQAAAAEExampleHashedPassword1", null, false, "dd27e7e3-15ea-4e74-a1d1-da78183ff62b", false, "john_doe", 150.00m },
+                    { "2", 0, new DateTime(2024, 10, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "1e349b24-fcc2-49b4-8edf-f513729a1703", new DateTime(1998, 8, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), "jane@example.com", false, false, null, null, null, "AQAAAAEAACcQAAAAEExampleHashedPassword2", null, false, "5b9823ee-7152-4976-b206-338896cecf42", false, "jane_smith", 75.50m },
+                    { "3", 0, new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "74760a85-2275-493d-b10f-efec8b1ee84e", new DateTime(1985, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin@arcadex.com", false, false, null, null, null, "AQAAAAEAACcQAAAAEExampleHashedPassword3", null, false, "7cf84bc8-21f6-455f-b7d7-0a8f81990b41", false, "admin_user", 1000.00m },
+                    { "4", 0, new DateTime(2024, 11, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "7dadc6c7-fbbf-4b1a-ac97-ee21e1c127ac", new DateTime(1990, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "dev@arcadex.com", false, false, null, null, null, "AQAAAAEAACcQAAAAEExampleHashedPassword4", null, false, "3ffb3ab2-63c8-4a5e-8ec4-8931cec230bb", false, "game_dev", 500.00m },
+                    { "5", 0, new DateTime(2024, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "63fac1f0-3722-484d-b035-fddcb7def357", new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "inactive@example.com", false, false, null, null, null, "AQAAAAEAACcQAAAAEExampleHashedPassword5", null, false, "f8397207-dcfb-4efa-8046-8f29eb47f7c8", false, "inactive_user", 0.00m }
                 });
 
             migrationBuilder.CreateIndex(
@@ -205,6 +280,21 @@ namespace ArcadeX.Api.Migrations.ArcadeXAuthDb
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Game_DeveloperId",
+                table: "Game",
+                column: "DeveloperId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Review_GameId",
+                table: "Review",
+                column: "GameId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Review_UserId",
+                table: "Review",
+                column: "UserId");
         }
 
         /// <inheritdoc />
@@ -226,7 +316,13 @@ namespace ArcadeX.Api.Migrations.ArcadeXAuthDb
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Review");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Game");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

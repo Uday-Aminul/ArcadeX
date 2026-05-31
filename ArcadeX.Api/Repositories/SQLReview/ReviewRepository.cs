@@ -60,7 +60,7 @@ namespace ArcadeX.Api.Repositories.SQLReview
                 return null;
             }
             reviewDomain.Rating = Review.Rating;
-            reviewDomain.Comment = Review.Comment;
+            reviewDomain.Messege = Review.Messege;
             reviewDomain.GameId = Review.GameId;
             reviewDomain.UserId = Review.UserId;
             reviewDomain.CreatedAt = Review.CreatedAt;

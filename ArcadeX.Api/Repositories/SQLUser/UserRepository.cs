@@ -10,8 +10,8 @@ namespace ArcadeX.Api.Repositories.SQLUser
 {
     public class UserRepository : IUserRepository
     {
-        private readonly ArcadeXDbContext _dbContext;
-        public UserRepository(ArcadeXDbContext dbContext)
+        private readonly ArcadeXAuthDbContext _dbContext;
+        public UserRepository(ArcadeXAuthDbContext dbContext)
         {
             _dbContext = dbContext;
         }
@@ -23,7 +23,7 @@ namespace ArcadeX.Api.Repositories.SQLUser
             return User;
         }
 
-        public async Task<List<User>?> DeleteUserByIdAsync(int id)
+        public async Task<List<User>?> DeleteUserByIdAsync(string id)
         {
             var userDomain = await _dbContext.Users.FirstOrDefaultAsync(g => g.Id == id);
             if (userDomain is null)
@@ -42,7 +42,7 @@ namespace ArcadeX.Api.Repositories.SQLUser
             return userDomains;
         }
 
-        public async Task<User?> GetUserByIdAsync(int id)
+        public async Task<User?> GetUserByIdAsync(string id)
         {
             var userDomain = await _dbContext.Users.FirstOrDefaultAsync(g => g.Id == id);
             if (userDomain is null)
@@ -52,21 +52,18 @@ namespace ArcadeX.Api.Repositories.SQLUser
             return userDomain;
         }
 
-        public async Task<User?> UpdateUserByIdAsync(int id, User User)
+        public async Task<User?> UpdateUserByIdAsync(string id, User user)
         {
             var userDomain = _dbContext.Users.FirstOrDefault(g => g.Id == id);
             if (userDomain is null)
             {
                 return null;
             }
-            userDomain.Username = User.Username;
-            userDomain.Email = User.Email;
-            userDomain.PasswordHash = User.PasswordHash;
-            userDomain.Role = User.Role;
-            userDomain.WalletBalance = User.WalletBalance;
-            userDomain.CreatedAt = User.CreatedAt;
-            userDomain.LastLoginAt = User.LastLoginAt;
-            userDomain.IsActive = User.IsActive;
+            userDomain.UserName = user.UserName;
+            userDomain.Email = user.Email;
+            userDomain.PasswordHash = user.PasswordHash;
+            userDomain.WalletBalance = user.WalletBalance;
+            userDomain.DateOfBirth = user.DateOfBirth;
 
             await _dbContext.SaveChangesAsync();
             return userDomain;

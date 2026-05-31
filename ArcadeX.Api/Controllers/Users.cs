@@ -29,7 +29,7 @@ namespace ArcadeX.Api.Controllers
 
         [HttpGet]
         [Route("{id:int}")]
-        public async Task<IActionResult> GetById([FromRoute] int id)
+        public async Task<IActionResult> GetById([FromRoute] string id)
         {
             var userDomain = await _userRepository.GetUserByIdAsync(id);
             if (userDomain is null)
@@ -41,7 +41,7 @@ namespace ArcadeX.Api.Controllers
 
         [HttpDelete]
         [Route("{id:int}")]
-        public async Task<IActionResult> Delete([FromRoute] int id)
+        public async Task<IActionResult> Delete([FromRoute] string id)
         {
             var userDomains = await _userRepository.DeleteUserByIdAsync(id);
             if (userDomains is null)
@@ -53,7 +53,7 @@ namespace ArcadeX.Api.Controllers
 
         [HttpPut]
         [Route("{id:int}")]
-        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] User updateduser)
+        public async Task<IActionResult> Update([FromRoute] string id, [FromBody] User updateduser)
         {
             var userDomain = await _userRepository.UpdateUserByIdAsync(id, updateduser);
             if (userDomain is null)
