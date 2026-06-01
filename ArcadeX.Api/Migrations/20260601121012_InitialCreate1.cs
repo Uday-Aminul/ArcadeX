@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ArcadeX.Api.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class InitialCreate1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -235,11 +235,11 @@ namespace ArcadeX.Api.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "AccountCreatedAt", "ConcurrencyStamp", "DateOfBirth", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName", "WalletBalance" },
                 values: new object[,]
                 {
-                    { "1", 0, new DateTime(2024, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "dffc4001-f081-4602-9a6a-427e5893a9cd", new DateTime(1995, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "john@example.com", false, false, null, null, null, "AQAAAAEAACcQAAAAEExampleHashedPassword1", null, false, "dd27e7e3-15ea-4e74-a1d1-da78183ff62b", false, "john_doe", 150.00m },
-                    { "2", 0, new DateTime(2024, 10, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "1e349b24-fcc2-49b4-8edf-f513729a1703", new DateTime(1998, 8, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), "jane@example.com", false, false, null, null, null, "AQAAAAEAACcQAAAAEExampleHashedPassword2", null, false, "5b9823ee-7152-4976-b206-338896cecf42", false, "jane_smith", 75.50m },
-                    { "3", 0, new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "74760a85-2275-493d-b10f-efec8b1ee84e", new DateTime(1985, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin@arcadex.com", false, false, null, null, null, "AQAAAAEAACcQAAAAEExampleHashedPassword3", null, false, "7cf84bc8-21f6-455f-b7d7-0a8f81990b41", false, "admin_user", 1000.00m },
-                    { "4", 0, new DateTime(2024, 11, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "7dadc6c7-fbbf-4b1a-ac97-ee21e1c127ac", new DateTime(1990, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "dev@arcadex.com", false, false, null, null, null, "AQAAAAEAACcQAAAAEExampleHashedPassword4", null, false, "3ffb3ab2-63c8-4a5e-8ec4-8931cec230bb", false, "game_dev", 500.00m },
-                    { "5", 0, new DateTime(2024, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "63fac1f0-3722-484d-b035-fddcb7def357", new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "inactive@example.com", false, false, null, null, null, "AQAAAAEAACcQAAAAEExampleHashedPassword5", null, false, "f8397207-dcfb-4efa-8046-8f29eb47f7c8", false, "inactive_user", 0.00m }
+                    { "1", 0, new DateTime(2024, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "a1b2c3d4-0001-0000-0000-000000000001", new DateTime(1995, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "john@example.com", true, false, null, "JOHN@EXAMPLE.COM", "JOHN_DOE", "AQAAAAEAACcQAAAAEExampleHashedPassword1", null, false, "STATIC-SECURITY-STAMP-1", false, "john_doe", 150.00m },
+                    { "2", 0, new DateTime(2024, 10, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "a1b2c3d4-0001-0000-0000-000000000002", new DateTime(1998, 8, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), "jane@example.com", true, false, null, "JANE@EXAMPLE.COM", "JANE_SMITH", "AQAAAAEAACcQAAAAEExampleHashedPassword2", null, false, "STATIC-SECURITY-STAMP-2", false, "jane_smith", 75.50m },
+                    { "3", 0, new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "a1b2c3d4-0001-0000-0000-000000000003", new DateTime(1985, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin@arcadex.com", true, false, null, "ADMIN@ARCADEX.COM", "ADMIN_USER", "AQAAAAEAACcQAAAAEExampleHashedPassword3", null, false, "STATIC-SECURITY-STAMP-3", false, "admin_user", 1000.00m },
+                    { "4", 0, new DateTime(2024, 11, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "a1b2c3d4-0001-0000-0000-000000000004", new DateTime(1990, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "dev@arcadex.com", true, false, null, "DEV@ARCADEX.COM", "GAME_DEV", "AQAAAAEAACcQAAAAEExampleHashedPassword4", null, false, "STATIC-SECURITY-STAMP-4", false, "game_dev", 500.00m },
+                    { "5", 0, new DateTime(2024, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "a1b2c3d4-0001-0000-0000-000000000005", new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "inactive@example.com", true, false, null, "INACTIVE@EXAMPLE.COM", "INACTIVE_USER", "AQAAAAEAACcQAAAAEExampleHashedPassword5", null, false, "STATIC-SECURITY-STAMP-5", false, "inactive_user", 0.00m }
                 });
 
             migrationBuilder.CreateIndex(
