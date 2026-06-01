@@ -15,11 +15,11 @@ namespace ArcadeX.Api.Models.DomainModels
         public DateTime CreatedAt { get; set; }
 
         // Foreign Keys
-        public String UserId { get; set; }
+        public String? UserId { get; set; }
         public int GameId { get; set; }
 
         // Navigation Properties
-        public User User { get; set; }
+        public User? User { get; set; }
         public Game Game { get; set; }
     }
 }

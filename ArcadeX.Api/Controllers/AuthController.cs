@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ArcadeX.Api.Models.DomainModels;
 using ArcadeX.Api.Models.DTOs.Auth;
 using ArcadeX.Api.Repositories.Token;
 using Microsoft.AspNetCore.Identity;
@@ -13,9 +14,9 @@ namespace ArcadeX.Api.Controllers
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<User> _userManager;
         private readonly ITokenRepository _tokenRepository;
-        public AuthController(UserManager<IdentityUser> userManager, ITokenRepository tokenRepository)
+        public AuthController(UserManager<User> userManager, ITokenRepository tokenRepository)
         {
             _userManager = userManager;
             _tokenRepository = tokenRepository;
@@ -25,10 +26,13 @@ namespace ArcadeX.Api.Controllers
         [Route("Register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequestDto newUser)
         {
-            var identityUser = new IdentityUser()
+            var identityUser = new User()
             {
                 UserName = newUser.Username,
                 Email = newUser.Email,
+                WalletBalance = 0.00m,  // Start with zero balance
+                AccountCreatedAt = DateTime.UtcNow,  // Set to current time
+                DateOfBirth = newUser.DateOfBirth
             };
             var identityResult = await _userManager.CreateAsync(identityUser, newUser.Password);
             if (identityResult.Succeeded)
